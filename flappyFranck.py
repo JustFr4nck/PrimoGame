@@ -17,46 +17,38 @@ tubo_up = pygame.transform.flip(tubo_under, False, True)
 #Posizione immagini
 
 posizione_sfondo = (0, 0)
-posizione_base = (-50, 400)
 
-#POSIZIONE UCCELLO
-x_bird = 90
-y_bird = 200
-pos_bird = (x_bird, y_bird)
-vertical_speed = 0
-n = 0
+#Inizializzazione finestra
 
-#Global const
-WINDOW = pygame.display.set_mode((284, 488))
+WINDOW = pygame.display.set_mode((280, 488))
 FPS = 60
 
 
-def print_objects():
+#METODI
 
-    WINDOW.blit(sfondo, posizione_sfondo)
-    WINDOW.blit(uccello, pos_bird)
-    WINDOW.blit(base, posizione_base)
+def inizializza():
 
-def update():
+    global birdX, birdY, birdVY
+    birdX, birdY, = 70, 150
+    birdVY = 0
+
+    global baseX, baseY, baseVX
+    baseX = -50
+    baseY = 400
+    baseVX = -2   
+
+def upload():
+
     pygame.display.update()
     pygame.time.Clock().tick(FPS)
 
-def bird_action(y_bird, vertical_speed, n):
+#piazzamento PNG
 
-    vertical_speed += 1^n
+def printa():
 
-    y_bird += vertical_speed
-
-    return y_bird
-
-def bird_up(y_bird, vertical_speed):
-
-    vertical_speed = -130    
-
-    y_bird += vertical_speed  
-
-    return y_bird
-
+    WINDOW.blit(sfondo, posizione_sfondo)
+    WINDOW.blit(base, (baseX, baseY))
+    WINDOW.blit(uccello, (birdX, birdY))
 
 
 
@@ -65,31 +57,26 @@ def bird_up(y_bird, vertical_speed):
 
 running = True
 
+inizializza()
+
 while running:
 
-    n += 1
+    birdVY += 1
+    birdY += birdVY
+    baseX += baseVX
 
-    print_objects()
-    y_bird = bird_action(y_bird, vertical_speed, n)
-    pos_bird = (x_bird, y_bird)
-    update()
+    printa()
+    upload()
 
     for event in pygame.event.get():
 
         if event.type == pygame.QUIT:
-
+            
             running = False
 
         if event.type == pygame.KEYDOWN:
 
             if event.key == pygame.K_SPACE:
-
-                y_bird = bird_up(y_bird, vertical_speed)
-                pos_bird = (x_bird, y_bird)
-                n = 0
-
-   
-
-
-
-pygame.quit()
+                
+                birdVY = -10
+ 
